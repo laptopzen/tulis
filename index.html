@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tulis</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<style type="text/css">
+		body {
+			padding-top: 70px;
+		}
+	</style>
+</head>
+<body>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header"><a href="index.html" class="navbar-brand">Tulis</a></div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<form action="" class="form">
+					<div class="form-group">
+						<label for="">Judul</label>
+						<input type="text" class="form-control judul" required="">
+					</div>
+					<div class="form-group">
+						<label for="">Bahasa</label>
+						<input type="text" class="form-control bahasa" required="">
+					</div>
+					<div class="form-group">
+						<label for="">Isi</label>
+						<textarea name="" id="" cols="30" rows="10" class="form-control isi" required=""></textarea>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Oke" class="btn btn-success">
+						<a href="#!" class="reset btn btn-danger pull-right">Reset</a>
+					</div>
+				</form>				
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="">Nama File</label>
+					<input type="text" class="form-control nama-file" readonly="">
+				</div>
+				<div class="form-group">
+					<label for="">Konten</label>
+					<textarea name="" id="" cols="30" rows="10" class="form-control konten" readonly=""></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('.reset').click((x) => {
+			x.preventDefault()
+			tanya = confirm('Hapus semua kah?')
+			if (tanya) $('.form-control').val('')
+		})
+		$('.form').on('submit', (x) => {
+			x.preventDefault()
+			tanggalan = new Date()
+			jam = `0${tanggalan.getHours()}`.split('').splice(-2, 2).join('')
+			menit = `0${tanggalan.getMinutes()}`.split('').splice(-2, 2).join('')
+			detik = `0${tanggalan.getSeconds()}`.split('').splice(-2, 2).join('')
+			tanggal = `0${tanggalan.getDate()}`.split('').splice(-2, 2).join('')
+			bulan = `0${tanggalan.getMonth() + 1}`.split('').splice(-2, 2).join('')
+			tahun = tanggalan.getFullYear()
+			$('.nama-file').val(`${tahun}-${bulan}-${tanggal}-${$('.judul').val().toLowerCase().replace(/[^a-z0-9]/gi, '-').replace(/-+/gi, '-')}.md`)
+			$('.konten').val(`---
+layout: post
+title: "${$('.judul').val()}"
+bahasa: ${$('.bahasa').val()}
+date: ${tahun}-${bulan}-${tanggal} ${jam}:${menit}:${detik} +0800
+---
+
+${$('.isi').val()}`)
+		})
+		$('.judul').val(localStorage.getItem('judul'))
+		$('.bahasa').val(localStorage.getItem('bahasa'))
+		$('.isi').val(localStorage.getItem('isi'))
+		$('.form-control').on('keyup', () => {
+			localStorage.setItem('judul', $('.judul').val())
+			localStorage.setItem('bahasa', $('.bahasa').val())
+			localStorage.setItem('isi', $('.isi').val())
+		})
+	</script>
+</body>
+</html>
