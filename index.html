@@ -89,7 +89,7 @@ ${$('.isi').val()}`)
 		})
 		jumlah_kata = () => {
 			kata = $(".isi").val().split(/\w+/).length - 1
-			warna = kata <= 300 ? 'danger' : 'success'
+			warna = kata <= 700 ? 'danger' : 'success'
 			$('.jumlah-kata').html(`<div class='alert alert-${warna}'>${kata.toLocaleString('id')} kata</div>`)
 		}
 		jumlah_kata()
